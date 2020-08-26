@@ -90,4 +90,5 @@ function clearCalculator() {
     number1 = 0;
     number2 = 0;
     calculatorDisplay.value = 0;
+    operationDirty = true;
 }
