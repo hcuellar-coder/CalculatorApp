@@ -1,0 +1,53 @@
+body{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+h1 {
+    font-size: 48px;
+}
+
+#calculatorDisplay {
+    width: 610px;
+    height: 75px;
+    font-size: 30px;
+    direction: rtl;
+    margin-bottom: 10px;
+}
+
+#buttons {
+    display: flex;
+    flex-direction: row;
+}
+
+#operationButtons {
+    display: flex;
+    flex-direction: column;
+}
+
+#inputButtons {
+    display: flex;
+    flex-direction: column;
+    margin-right: 10px;
+}
+
+.numberButton {
+    width: 150px;
+    height: 75px;
+    font-size: 30px;
+    margin-top: 5px;
+}
+
+.memoryButton {
+    width: 150px;
+    height: 75px;
+    font-size: 30px;
+}
+
+.operationButton {
+    width: 150px;
+    height: 75px;
+    font-size: 30px;
+    margin-bottom: 5px;
+}
