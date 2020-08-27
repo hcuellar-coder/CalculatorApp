@@ -8,8 +8,11 @@ calculatorDisplay.value = 0;
 let number1 = 0;
 let number2 = 0;
 let answer = 0;
+
 let operation;
 let operationDirty = true;
+let equalDirty = false;
+
 
 for (i = 0; i < memoryButtons.length; i++) {
     memoryButtons[i].addEventListener('click', function(e) { handleMemory(e); })
@@ -29,8 +32,16 @@ function handleMemory(e) {
 
 function handleNumbers(e) {
     console.log(e.target.innerText);
+
     if (e.target.innerText === 'C') {
         clearCalculator();
+        equalDirty = false;
+    } else if (equalDirty) {
+        console.log('Reset After Equals')
+        clearCalculator();
+        calculatorDisplay.value = e.target.innerText;
+        equalDirty = false;
+        operationDirty = false;
     } else {
         if (operationDirty) {
             calculatorDisplay.value = '';
@@ -41,54 +52,86 @@ function handleNumbers(e) {
 }
 
 function handleOperations(e) {
-    console.log(e.target.innerText);
+    let newOperation = e.target.innerText;
+    console.log('operation is ' + operation);
+    console.log('newOperation is ' + newOperation);
+    console.log('equal dirty = ' + equalDirty);
+    console.log('operation dirty = ' + operationDirty);
 
-    if (!number1) {
-        number1 = parseFloat(calculatorDisplay.value);
-    } else {
-        number2 = parseFloat(calculatorDisplay.value);
-    }
+    //Work on Zeros!
 
+    console.log('Before Check');
     console.log('number1 : ' + number1);
     console.log('number2 : ' + number2);
+    console.log('answer : ' + answer);
 
-    calculatorMath();
-    if (e.target.innerText !== operation) {
-        console.log('initialize operation');
-        operation = e.target.innerText;
+    if (!equalDirty && !operationDirty) {
+        if (!number1 && !answer) {
+            number1 = parseFloat(calculatorDisplay.value);
+        } else if (!number1 && answer) {
+            number1 = answer;
+            number2 = parseFloat(calculatorDisplay.value);
+            calculatorMath();
+        } else {
+            console.log('setting number 2');
+            number2 = parseFloat(calculatorDisplay.value);
+            calculatorMath();
+        }
     }
 
+    if (newOperation !== operation && newOperation !== '=') {
+        console.log('initialize operation');
+        operation = newOperation;
+        equalDirty = false;
+    } else if (newOperation === '=') {
+        operation = newOperation;
+        equalDirty = true;
+    }
     operationDirty = true;
 }
 
 function calculatorMath() {
+
+    console.log('Before Math');
+    console.log('number1 : ' + number1);
+    console.log('number2 : ' + number2);
+    console.log('answer : ' + answer);
+
     if (operation === '+') {
-        number1 = number1 + number2;
-        calculatorDisplay.value = number1;
+        answer = number1 + number2;
+        number1 = 0;
+        number2 = 0;
+        calculatorDisplay.value = answer;
         console.log('Addition');
     } else if (operation === '-') {
-        number1 = number1 - number2;
-        calculatorDisplay.value = number1;
+        answer = number1 - number2;
+        number1 = 0;
+        number2 = 0;
+        calculatorDisplay.value = answer;
         console.log('Subtraction');
     } else if (operation === '*') {
-        number1 = number1 * number2;
-        calculatorDisplay.value = number1;
+        answer = number1 * number2;
+        number1 = 0;
+        number2 = 0;
+        calculatorDisplay.value = answer;
         console.log('Multiplication');
     } else if (operation === '/') {
-        number1 = number1 / number2;
-        calculatorDisplay.value = number1;
+        answer = number1 / number2;
+        number1 = 0;
+        number2 = 0;
+        calculatorDisplay.value = answer;
         console.log('Division');
     }
-    else {
-        calculatorDisplay.value = number1;
-        number2 = 0;
-        console.log('Youre just clicking equals bruh');
-    }
+
+    console.log('After Math!');
+    console.log('number1 : ' + number1);
+    console.log('number2 : ' + number2);
+    console.log('answer : ' + answer);
 }
 
 function clearCalculator() {
     number1 = 0;
     number2 = 0;
+    answer = 0;
     calculatorDisplay.value = 0;
-    operationDirty = true;
 }
