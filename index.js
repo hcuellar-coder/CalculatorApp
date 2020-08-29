@@ -12,6 +12,11 @@ let divByZero = false;
 let operationDirty = false;
 let equalDirty = false;
 
+if (window.localStorage.getItem('calculatorMem')) {
+    console.log(window.localStorage.getItem('calculatorMem'));
+    memStorage = parseFloat(window.localStorage.getItem('calculatorMem'));
+}
+
 function setListeners() {
     let memoryButtons = document.querySelectorAll('button.memoryButton');
     let numberButtons = document.querySelectorAll('button.numberButton');
@@ -35,12 +40,16 @@ function handleMemory(e) {
     console.log(e.target.innerText);
     let memKey = e.target.innerText;
     if (memKey === 'MR') {
+        //clearCalculator();
         calculatorDisplay.value = memStorage;
         init = true;
+        operationDirty = false;
     } else if (memKey === 'M+') {
         memStorage += parseFloat(calculatorDisplay.value);
+        window.localStorage.setItem('calculatorMem', memStorage);
     } else {
         memStorage -= parseFloat(calculatorDisplay.value);
+        window.localStorage.setItem('calculatorMem', memStorage);
     }
 }
 
