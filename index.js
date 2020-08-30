@@ -11,7 +11,7 @@ let answer = null;
 let memStorage = 0;
 
 let operation;
-let init = true;
+let newInput = true;
 let divByZero = false;
 let operationDirty = false;
 let equalDirty = false;
@@ -32,49 +32,14 @@ function setListeners() {
     for (i = 0; i < operationButtons.length; i++) {
         operationButtons[i].addEventListener('click', function(e) { handleOperations(e.target.innerText); })
     }
-    document.addEventListener('keydown', function(e) { keyHandler(e.key) });
 }
 
-function keyHandler(e) {
-    console.log(e);
-    switch (e) {
-        case '.':
-        case '0':
-        case '1':
-        case '2':
-        case '3':
-        case '4':
-        case '5':
-        case '6':
-        case '7':
-        case '8':
-        case '9':
-            handleNumbers(e);
-            break;
-        case 'c':
-        case 'C':
-            handleNumbers('C');
-            break;
-        case '+':
-        case '-':
-        case '*':
-        case '/':
-            handleOperations(e);
-            break;
-        case 'Enter':
-        case '=':
-            handleOperations('=');
-            break;
-        default:
-            break;
-    }
-}
 
 function handleMemory(e) {
     let memKey = e;
     if (memKey === 'MR') {
         calculatorDisplay.value = memStorage;
-        init = true;
+        newInput = true;
         operationDirty = false;
         if (equalDirty) {
             equalDirty = false;
@@ -102,12 +67,12 @@ function handleNumbers(e) {
     } else if (equalDirty) {
         clearCalculator();
         calculatorDisplay.value = numberInput;
-        init = false;
+        newInput = false;
     } else {
-        if (operationDirty || init) {
+        if (operationDirty || newInput) {
             calculatorDisplay.value = '';
             operationDirty = false;
-            init = false;
+            newInput = false;
         }
         calculatorDisplay.value += numberInput;
     }
@@ -115,14 +80,6 @@ function handleNumbers(e) {
 
 function handleOperations(e) {
     let newOperation = e;
-
-    console.log('equalDirty =' + equalDirty);
-    console.log('operationDirty =' + operationDirty);
-    console.log('init =' + init);
-    console.log('number1 =' + number1);
-    console.log('number2 =' + number2);
-    console.log('answer =' + answer);
-
 
     if (!equalDirty && !operationDirty) {
         if (number1 === null && answer === null) {
@@ -182,7 +139,7 @@ function clearCalculator() {
     number1 = null;
     number2 = null;
     answer = null;
-    init = true;
+    newInput = true;
     operationDirty = false;
     equalDirty = false;
     calculatorDisplay.value = 0;
