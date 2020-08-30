@@ -1,5 +1,9 @@
-setListeners();
+let memoryButtons = document.querySelectorAll('button.memoryButton');
+let numberButtons = document.querySelectorAll('button.numberButton');
+let operationButtons = document.querySelectorAll('button.operationButton');
 let calculatorDisplay = document.getElementById('calculatorDisplay');
+
+setListeners();
 
 let number1 = null;
 let number2 = null;
@@ -13,15 +17,10 @@ let operationDirty = false;
 let equalDirty = false;
 
 if (window.localStorage.getItem('calculatorMem')) {
-    console.log(window.localStorage.getItem('calculatorMem'));
     memStorage = parseFloat(window.localStorage.getItem('calculatorMem'));
 }
 
 function setListeners() {
-    let memoryButtons = document.querySelectorAll('button.memoryButton');
-    let numberButtons = document.querySelectorAll('button.numberButton');
-    let operationButtons = document.querySelectorAll('button.operationButton');
-
     for (i = 0; i < memoryButtons.length; i++) {
         memoryButtons[i].addEventListener('click', function(e) { handleMemory(e); })
     }
@@ -35,15 +34,16 @@ function setListeners() {
     }
 }
 
-
 function handleMemory(e) {
-    console.log(e.target.innerText);
     let memKey = e.target.innerText;
     if (memKey === 'MR') {
-        //clearCalculator();
         calculatorDisplay.value = memStorage;
         init = true;
         operationDirty = false;
+        if (equalDirty) {
+            equalDirty = false;
+            answer = null;
+        }
     } else if (memKey === 'M+') {
         memStorage += parseFloat(calculatorDisplay.value);
         window.localStorage.setItem('calculatorMem', memStorage);
@@ -54,13 +54,9 @@ function handleMemory(e) {
 }
 
 function handleNumbers(e) {
-    console.log(e.target.innerText);
-    console.log('initial = ' + init);
-    console.log('divByZero = ' + divByZero);
-    console.log('equal dirty = ' + equalDirty);
-    console.log('operation dirty = ' + operationDirty);
+    let numberInput = e.target.innerText;
 
-    if (e.target.innerText === 'C') {
+    if (numberInput === 'C') {
         clearCalculator();
         if (divByZero) {
             divByZero = false;
@@ -69,7 +65,7 @@ function handleNumbers(e) {
         equalDirty = false;
     } else if (equalDirty) {
         clearCalculator();
-        calculatorDisplay.value = e.target.innerText;
+        calculatorDisplay.value = numberInput;
         init = false;
     } else {
         if (operationDirty || init) {
@@ -77,7 +73,72 @@ function handleNumbers(e) {
             operationDirty = false;
             init = false;
         }
-        calculatorDisplay.value += e.target.innerText;
+        calculatorDisplay.value += numberInput;
+    }
+}
+
+function handleOperations(e) {
+    let newOperation = e.target.innerText;
+
+    console.log('equalDirty =' + equalDirty);
+    console.log('operationDirty =' + operationDirty);
+    console.log('init =' + init);
+    console.log('number1 =' + number1);
+    console.log('number2 =' + number2);
+    console.log('answer =' + answer);
+
+
+    if (!equalDirty && !operationDirty) {
+        if (number1 === null && answer === null) {
+            number1 = parseFloat(calculatorDisplay.value);
+        } else if (number1 === null && answer) {
+            number1 = answer;
+            number2 = parseFloat(calculatorDisplay.value);
+            calculatorMath();
+        } else {
+            number2 = parseFloat(calculatorDisplay.value);
+            calculatorMath();
+        }
+    }
+
+    if (newOperation !== operation && newOperation !== '=') {
+        operation = newOperation;
+        equalDirty = false;
+    } else if (newOperation === '=') {
+        operation = newOperation;
+        equalDirty = true;
+    }
+
+    operationDirty = true;
+}
+
+function calculatorMath() {
+    if (operation === '+') {
+        answer = number1 + number2;
+        number1 = null;
+        number2 = null;
+        calculatorDisplay.value = answer;
+    } else if (operation === '-') {
+        answer = number1 - number2;
+        number1 = null;
+        number2 = null;
+        calculatorDisplay.value = answer;
+    } else if (operation === '*') {
+        answer = number1 * number2;
+        number1 = null;
+        number2 = null;
+        calculatorDisplay.value = answer;
+    } else if (operation === '/') {
+        if (number2 === 0) {
+            divByZero = true;
+            setDisable(true);
+            calculatorDisplay.value = 'Cannot divide by zero';
+        } else {
+            answer = number1 / number2;
+            number1 = null;
+            number2 = null;
+            calculatorDisplay.value = answer;
+        }
     }
 }
 
@@ -91,96 +152,7 @@ function clearCalculator() {
     calculatorDisplay.value = 0;
 }
 
-function handleOperations(e) {
-    let newOperation = e.target.innerText;
-    console.log('operation is ' + operation);
-    console.log('newOperation is ' + newOperation);
-    console.log('equal dirty = ' + equalDirty);
-    console.log('operation dirty = ' + operationDirty);
-
-    //Work on Zeros!
-
-    console.log('Before Check');
-    console.log('number1 : ' + number1);
-    console.log('number2 : ' + number2);
-    console.log('answer : ' + answer);
-
-    if (!equalDirty && !operationDirty) {
-        console.log('INSIDE!!');
-        if (number1 === null && answer === null) {
-            number1 = parseFloat(calculatorDisplay.value);
-        } else if (number1 === null && answer) {
-            number1 = answer;
-            number2 = parseFloat(calculatorDisplay.value);
-            calculatorMath();
-        } else {
-            console.log('setting number 2');
-            number2 = parseFloat(calculatorDisplay.value);
-            calculatorMath();
-        }
-    }
-
-    if (newOperation !== operation && newOperation !== '=') {
-        console.log('initialize operation');
-        operation = newOperation;
-        equalDirty = false;
-    } else if (newOperation === '=') {
-        operation = newOperation;
-        equalDirty = true;
-    }
-    operationDirty = true;
-}
-
-function calculatorMath() {
-
-    console.log('Before Math');
-    console.log('number1 : ' + number1);
-    console.log('number2 : ' + number2);
-    console.log('answer : ' + answer);
-
-    if (operation === '+') {
-        answer = number1 + number2;
-        number1 = null;
-        number2 = null;
-        calculatorDisplay.value = answer;
-        console.log('Addition');
-    } else if (operation === '-') {
-        answer = number1 - number2;
-        number1 = null;
-        number2 = null;
-        calculatorDisplay.value = answer;
-        console.log('Subtraction');
-    } else if (operation === '*') {
-        answer = number1 * number2;
-        number1 = null;
-        number2 = null;
-        calculatorDisplay.value = answer;
-        console.log('Multiplication');
-    } else if (operation === '/') {
-        if (number2 === 0) {
-            divByZero = true;
-            setDisable(true);
-            calculatorDisplay.value = 'Cannot divide by zero';
-        } else {
-            answer = number1 / number2;
-            number1 = null;
-            number2 = null;
-            calculatorDisplay.value = answer;
-        }
-        console.log('Division');
-    }
-
-    console.log('After Math!');
-    console.log('number1 : ' + number1);
-    console.log('number2 : ' + number2);
-    console.log('answer : ' + answer);
-}
-
 function setDisable(bool) {
-    let memoryButtons = document.querySelectorAll('button.memoryButton');
-    let numberButtons = document.querySelectorAll('button.numberButton');
-    let operationButtons = document.querySelectorAll('button.operationButton');
-
     for (i = 0; i < memoryButtons.length; i++) {
         memoryButtons[i].disabled = bool;
     }

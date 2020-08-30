@@ -5,13 +5,13 @@ body{
 }
 
 h1 {
-    font-size: 48px;
+    font-size: 56px;
 }
 
 #calculatorDisplay {
     width: 610px;
     height: 75px;
-    font-size: 30px;
+    font-size: 36px;
     text-align: right;
     margin-bottom: 10px;
 }
@@ -20,6 +20,7 @@ h1 {
     display: flex;
     flex-direction: row;
 }
+
 
 #operationButtons {
     display: flex;
@@ -37,12 +38,24 @@ h1 {
     height: 75px;
     font-size: 30px;
     margin-top: 5px;
+    background-color: white;
+}
+
+.numberButton:active {
+    background-color: blue;
+    color: white;
 }
 
 .memoryButton {
     width: 150px;
     height: 75px;
     font-size: 30px;
+    background-color: white;
+}
+
+.memoryButton:active {
+    background-color: green;
+    color: white;
 }
 
 .operationButton {
@@ -50,4 +63,10 @@ h1 {
     height: 75px;
     font-size: 30px;
     margin-bottom: 5px;
+    background-color: white;
+}
+
+.operationButton:active {
+    background-color: red;
+    color: white;
 }
