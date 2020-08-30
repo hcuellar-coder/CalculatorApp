@@ -22,20 +22,56 @@ if (window.localStorage.getItem('calculatorMem')) {
 
 function setListeners() {
     for (i = 0; i < memoryButtons.length; i++) {
-        memoryButtons[i].addEventListener('click', function(e) { handleMemory(e); })
+        memoryButtons[i].addEventListener('click', function(e) { handleMemory(e.target.innerText); })
     }
 
     for (i = 0; i < numberButtons.length; i++) {
-        numberButtons[i].addEventListener('click', function(e) { handleNumbers(e); })
+        numberButtons[i].addEventListener('click', function(e) { handleNumbers(e.target.innerText); })
 
     }
     for (i = 0; i < operationButtons.length; i++) {
-        operationButtons[i].addEventListener('click', function(e) { handleOperations(e); })
+        operationButtons[i].addEventListener('click', function(e) { handleOperations(e.target.innerText); })
+    }
+    document.addEventListener('keydown', function(e) { keyHandler(e.key) });
+}
+
+function keyHandler(e) {
+    console.log(e);
+    switch (e) {
+        case '.':
+        case '0':
+        case '1':
+        case '2':
+        case '3':
+        case '4':
+        case '5':
+        case '6':
+        case '7':
+        case '8':
+        case '9':
+            handleNumbers(e);
+            break;
+        case 'c':
+        case 'C':
+            handleNumbers('C');
+            break;
+        case '+':
+        case '-':
+        case '*':
+        case '/':
+            handleOperations(e);
+            break;
+        case 'Enter':
+        case '=':
+            handleOperations('=');
+            break;
+        default:
+            break;
     }
 }
 
 function handleMemory(e) {
-    let memKey = e.target.innerText;
+    let memKey = e;
     if (memKey === 'MR') {
         calculatorDisplay.value = memStorage;
         init = true;
@@ -54,7 +90,7 @@ function handleMemory(e) {
 }
 
 function handleNumbers(e) {
-    let numberInput = e.target.innerText;
+    let numberInput = e;
 
     if (numberInput === 'C') {
         clearCalculator();
@@ -78,7 +114,7 @@ function handleNumbers(e) {
 }
 
 function handleOperations(e) {
-    let newOperation = e.target.innerText;
+    let newOperation = e;
 
     console.log('equalDirty =' + equalDirty);
     console.log('operationDirty =' + operationDirty);
