@@ -11,4 +11,8 @@ Run Code [Here](https://hcuellar-coder.github.io/CalculatorApp/)
 This calculator application has memory functionality and sleek design. It was a challenge to take into account all the different functionalities that we take for granted of the simple calculator. Standing on the shoulders of giants, I was able to use Vanilla Javascript, HTML and CSS to create a working calcualtor applicaiton. It also uses the local storage for its memory functionality. It was a fun challenge and enjoyed making it. 
 
 ## Author
+<<<<<<< HEAD
 Heriberto Cuellar – Full Stack Software Developer - [LinkedIn](https://www.linkedin.com/in/heriberto-c-5aa11952)
+=======
+Heriberto Cuellar – Full Stack Software Developer - [LinkedIn](https://www.linkedin.com/in/heriberto-c-5aa11952)
+>>>>>>> cceb2791b10d978bdc4e43382299151a05624779
