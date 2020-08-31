@@ -109,6 +109,7 @@ function calculateAnswer() {
             answer = number1 / number2;
         }
     }
+
     number1 = null;
     number2 = null;
     return dividingByZero ? 'Cannot divide by zero' : answer;
