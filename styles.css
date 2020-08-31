@@ -8,7 +8,7 @@ h1 {
     font-size: 56px;
 }
 
-#calculatorDisplay {
+#calculator-display {
     width: 610px;
     height: 75px;
     font-size: 36px;
@@ -22,18 +22,18 @@ h1 {
 }
 
 
-#operationButtons {
+#operation-buttons {
     display: flex;
     flex-direction: column;
 }
 
-#inputButtons {
+#input-buttons {
     display: flex;
     flex-direction: column;
     margin-right: 10px;
 }
 
-.numberButton {
+.number-button {
     width: 150px;
     height: 75px;
     font-size: 30px;
@@ -41,24 +41,37 @@ h1 {
     background-color: white;
 }
 
-.numberButton:active {
+.number-button:active {
     background-color: blue;
     color: white;
 }
 
-.memoryButton {
+.clear-button {
+    width: 150px;
+    height: 75px;
+    font-size: 30px;
+    margin-top: 5px;
+    background-color: white;
+}
+
+.clear-button:active {
+    background-color: orange;
+    color: white;
+}
+
+.memory-button {
     width: 150px;
     height: 75px;
     font-size: 30px;
     background-color: white;
 }
 
-.memoryButton:active {
+.memory-button:active {
     background-color: green;
     color: white;
 }
 
-.operationButton {
+.operation-button {
     width: 150px;
     height: 75px;
     font-size: 30px;
@@ -66,7 +79,7 @@ h1 {
     background-color: white;
 }
 
-.operationButton:active {
+.operation-button:active {
     background-color: red;
     color: white;
 }
