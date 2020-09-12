@@ -1,8 +1,6 @@
 # Calculator App
 A simple and clean calculator application written entirely in Vanilla JavaScript, HTML and CSS
 
-Code Located [Here](https://github.com/hcuellar-coder/CalculatorApp)
-
 Run Code [Here](https://hcuellar-coder.github.io/CalculatorApp/)
 
 ![Calculator App](./images/calculatorApp.PNG)
